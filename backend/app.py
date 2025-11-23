@@ -27,6 +27,10 @@ class Post(db.Model):
 # -------------------
 # Auth Routes
 # -------------------
+@app.route("/")
+def index():
+    return {"status": "success", "message": "Backend is running!"}
+
 @app.route("/auth/register", methods=["POST"])
 def register():
     data = request.json
@@ -107,3 +111,4 @@ if __name__ == "__main__":
             print("Seeded demo user and posts!")
 
     app.run(debug=True)
+    
