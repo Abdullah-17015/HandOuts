@@ -90,5 +90,20 @@ def user_profile(user_id):
 # Entry Point
 # -------------------
 if __name__ == "__main__":
-    db.create_all()  # Create tables if not exist
+    with app.app_context():
+        db.create_all()  # Create tables if not exist
+
+        # --- Demo Data Seeding ---
+        if not User.query.first():  # Only seed if DB is empty
+            demo_user = User(username="Gabriel", password="test123")
+            db.session.add(demo_user)
+            db.session.commit()
+
+            demo_post1 = Post(title="First Demo Post", author_id=demo_user.id)
+            demo_post2 = Post(title="Second Demo Post", author_id=demo_user.id)
+            db.session.add_all([demo_post1, demo_post2])
+            db.session.commit()
+
+            print("Seeded demo user and posts!")
+
     app.run(debug=True)
